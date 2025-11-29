@@ -16,6 +16,8 @@ export default defineNuxtConfig({
   srcDir: 'app/',
   css: [
     '~/assets/styles/index.css',
+    'primeicons/primeicons.css',
+
   ],
 
 })

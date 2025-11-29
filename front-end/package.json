@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@nuxt/ui": "^3.3.7",
@@ -16,8 +17,11 @@
     "@primevue/nuxt-module": "^4.5.0",
     "nuxt": "^3.20.1",
     "pinia": "^3.0.4",
-    "prettier": "^3.7.2",
+    "primeicons": "^7.0.0",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.3"
   }
 }
