@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page chat-layout">
+
+    <aside class="chat-sidebar">
+        <button id="new-chat-btn" class="btn-primary" style="margin-top:0; margin-bottom:15px;">
+            + New Chat
+        </button>
+        <div id="chat-list" class="chat-list">
+            </div>
+    </aside>
+
+    <div class="chat-main">
+        <div class="chat-header-mobile">
+            <h1 class="page-title" style="margin:0; font-size:20px;">Assistant</h1>
+        </div>
+
+        <div id="chat-window" class="chat-window">
+            <div id="chat-placeholder" class="chat-intro">
+                <div class="avatar-circle" style="background:var(--accent); color:white; margin:0 auto 10px;">AI</div>
+                <p>Hello! Select a chat or start a new one to discuss your style.</p>
+            </div>
+            </div>
+
+        <div class="chat-input-row">
+            <input
+                    id="chat-input"
+                    class="input chat-input"
+                    placeholder="Type your question..."
+                    disabled
+            />
+            <button id="chat-send" class="btn-circle" disabled>➤</button>
+        </div>
+    </div>
+</section>
+{% endblock %}

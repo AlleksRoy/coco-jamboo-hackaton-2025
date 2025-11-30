@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{{ title or "Outfit AI" }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styles.css') }}"
+    />
+</head>
+<body data-page="{{ view or page or '' }}" data-item-id="{{ item_id or '' }}">
+
+<div class="app-root">
+    <header class="app-header">
+        <div class="container header-main">
+            <div class="brand">
+                <div class="brand-logo">
+                    <span>AI</span>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-title">Outfit Assistant</div>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <a href="{{ url_for('home') }}" class="nav-link {% if page == 'home' %}nav-link-active{% endif %}">
+                    Home
+                </a>
+                <a href="{{ url_for('wardrobe') }}"
+                   class="nav-link {% if page == 'wardrobe' %}nav-link-active{% endif %}">
+                    Wardrobe
+                </a>
+                <a href="{{ url_for('chat') }}" class="nav-link {% if page == 'chat' %}nav-link-active{% endif %}">
+                    Chat
+                </a>
+                <a href="{{ url_for('profile') }}"
+                   class="nav-link {% if page == 'profile' %}nav-link-active{% endif %}">
+                    Profile
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="app-main">
+        <div class="container main-container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container footer-inner">
+            <span>© 2025 Outfit Assistant</span>
+            <span class="footer-note">AI Hackathon Project</span>
+        </div>
+    </footer>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

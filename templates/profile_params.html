@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page">
+    <a href="{{ url_for('profile') }}" class="back-link">← Back to profile</a>
+
+    <h1 class="page-title">Edit – Body & Style</h1>
+    <p class="page-subtitle">
+        Accurate data helps AI understand what fits you best.
+    </p>
+
+    <form id="profile-params-form" class="card profile-edit-card">
+
+        <label class="field-label">Gender fit preference</label>
+        <div class="select-wrapper">
+            <select id="params-gender" class="input select-input">
+                <option value="Male" {% if profile.gender == 'Male' %}selected{% endif %}>Male / Menswear</option>
+                <option value="Female" {% if profile.gender == 'Female' %}selected{% endif %}>Female / Womenswear</option>
+                <option value="Unisex" {% if profile.gender == 'Unisex' %}selected{% endif %}>Unisex / Neutral</option>
+            </select>
+        </div>
+
+        <div class="form-row-2col">
+            <div>
+                <label class="field-label" for="params-height">Height (cm)</label>
+                <input id="params-height" type="number" class="input" value="{{ profile.height }}" placeholder="175"/>
+            </div>
+            <div>
+                <label class="field-label" for="params-weight">Weight (kg)</label>
+                <input id="params-weight" type="number" class="input" value="{{ profile.weight }}" placeholder="70"/>
+            </div>
+        </div>
+
+        <label class="field-label">Body Type / Shape</label>
+        <div class="select-wrapper">
+            <select id="params-body" class="input select-input">
+                <option value="Regular" {% if profile.body_type == 'Regular' %}selected{% endif %}>Regular / Average</option>
+                <option value="Athletic" {% if profile.body_type == 'Athletic' %}selected{% endif %}>Athletic / Muscular</option>
+                <option value="Slim" {% if profile.body_type == 'Slim' %}selected{% endif %}>Slim / Ectomorph</option>
+                <option value="Stocky" {% if profile.body_type == 'Stocky' %}selected{% endif %}>Stocky / Endomorph</option>
+                <option value="Hourglass" {% if profile.body_type == 'Hourglass' %}selected{% endif %}>Hourglass (Curvy)</option>
+                <option value="Pear" {% if profile.body_type == 'Pear' %}selected{% endif %}>Pear Shape</option>
+                <option value="Inverted Triangle" {% if profile.body_type == 'Inverted Triangle' %}selected{% endif %}>Inverted Triangle</option>
+            </select>
+        </div>
+
+        <label class="field-label">Skin Tone (for Color Analysis)</label>
+        <div class="select-wrapper">
+            <select id="params-skin" class="input select-input">
+                <option value="Neutral" {% if profile.skin_tone == 'Neutral' %}selected{% endif %}>Neutral / Medium</option>
+                <option value="Fair Cool" {% if profile.skin_tone == 'Fair Cool' %}selected{% endif %}>Fair (Cool undertone)</option>
+                <option value="Fair Warm" {% if profile.skin_tone == 'Fair Warm' %}selected{% endif %}>Fair (Warm undertone)</option>
+                <option value="Medium Warm" {% if profile.skin_tone == 'Medium Warm' %}selected{% endif %}>Medium / Olive (Warm)</option>
+                <option value="Dark Cool" {% if profile.skin_tone == 'Dark Cool' %}selected{% endif %}>Dark (Cool undertone)</option>
+                <option value="Dark Warm" {% if profile.skin_tone == 'Dark Warm' %}selected{% endif %}>Dark (Warm undertone)</option>
+            </select>
+        </div>
+
+        <hr style="border:0; border-top:1px solid var(--border-subtle); margin: 24px 0;">
+
+        <label class="field-label" for="params-style">Style Description</label>
+        <div class="hint" style="margin-bottom:8px; margin-top:0;">Keywords regarding your taste.</div>
+        <textarea
+                id="params-style"
+                class="profile-textarea"
+                rows="3"
+                placeholder="e.g. Minimalist, Streetwear, Old Money, Colorful..."
+        >{{ profile.style }}</textarea>
+
+        <button type="submit" class="btn-primary" id="params-save">
+            Save changes
+        </button>
+    </form>
+</section>
+{% endblock %}

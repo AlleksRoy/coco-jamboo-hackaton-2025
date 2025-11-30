@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page">
+    <a href="{{ url_for('profile') }}" class="back-link">← Back to profile</a>
+
+    <h1 class="page-title">Edit – About you</h1>
+    <p class="page-subtitle">
+        Update your identity information. These values are used in greetings and in outfit explanations.
+    </p>
+
+    <form id="profile-basic-form" class="card profile-edit-card">
+        <div class="profile-header">
+            <div class="avatar-circle avatar-lg">
+                {{ profile.name[:1] if profile.name else "U" }}
+            </div>
+            <div class="profile-header-text">
+                <div class="profile-header-label">Displayed avatar</div>
+                <div class="profile-header-help">
+                    First letter of your name. Changes after you save the form.
+                </div>
+            </div>
+        </div>
+
+        <label class="field-label" for="basic-name">Full name</label>
+        <input
+                id="basic-name"
+                class="input"
+                value="{{ profile.name }}"
+                placeholder="Name Surname"
+        />
+
+        <label class="field-label" for="basic-email">Email</label>
+        <input
+                id="basic-email"
+                class="input"
+                value="{{ profile.email }}"
+                placeholder="user@example.com"
+        />
+
+        <label class="field-label" for="basic-city">City of residence</label>
+        <input
+                id="basic-city"
+                class="input"
+                value="{{ profile.city }}"
+                placeholder="e.g. Košice, Bratislava, Vienna"
+        />
+
+        <label class="field-label" for="basic-about">About you</label>
+        <textarea
+                id="basic-about"
+                class="profile-textarea"
+                rows="4"
+                placeholder="Tell the AI assistant who you are, what you do and when you need styling help."
+        >{{ profile.about }}</textarea>
+
+        <button type="submit" class="btn-primary" id="basic-save">
+            Save changes
+        </button>
+        <p id="basic-status" class="hint"></p>
+    </form>
+</section>
+{% endblock %}

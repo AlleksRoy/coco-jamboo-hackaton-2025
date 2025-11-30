@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page">
+    <a href="{{ url_for('wardrobe') }}" class="back-link">← Back to wardrobe</a>
+    <p class="page-subtitle">
+        Edit this piece or remove it from your wardrobe.
+    </p>
+
+    <div id="item-error" class="error hidden"></div>
+
+    <form id="item-form" class="card profile-edit-card">
+        <div class="profile-header">
+            <div class="profile-header-text">
+                <div class="profile-header-label">Preview</div>
+                <div class="profile-header-help">
+                    Image and basic info of this wardrobe item.
+                </div>
+            </div>
+        </div>
+
+        <div id="item-image-wrapper" style="margin:10px 0;">
+            <img id="item-image" src="" alt="Item photo"
+                 style="max-width: 180px; border-radius: 12px; display:none;">
+        </div>
+
+        <label class="field-label" for="item-type">Name / type</label>
+        <input id="item-type" class="input" placeholder="e.g. jeans, hoodie"/>
+
+        <label class="field-label" for="item-style">Style</label>
+        <input id="item-style" class="input" placeholder="e.g. casual, sporty"/>
+
+        <label class="field-label" for="item-season">Season</label>
+        <input
+                id="item-season"
+                class="input"
+                placeholder="spring, summer, fall, winter, all"
+        />
+
+        <label class="field-label" for="item-warmth">Warmth</label>
+        <input
+                id="item-warmth"
+                class="input"
+                placeholder="light, medium, warm"
+        />
+
+        <label class="field-label" for="item-brand">Brand</label>
+        <input id="item-brand" class="input" placeholder="Brand (optional)"/>
+
+        <label class="field-label" for="item-tags">Tags</label>
+        <input
+                id="item-tags"
+                class="input"
+                placeholder="comma-separated: office, date, rain..."
+        />
+
+        <div class="hint" id="item-usage"></div>
+
+        <button type="submit" class="btn-primary" id="item-save">
+            Save changes
+        </button>
+
+        <button type="button" class="btn-primary"
+                id="item-delete"
+                style="margin-top:8px; background: #991b1b; box-shadow:none;">
+            Delete item
+        </button>
+    </form>
+</section>
+{% endblock %}

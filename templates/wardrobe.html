@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page">
+    <label class="upload-label">
+        <span id="upload-text">Add item</span>
+        <input id="file-input" type="file" accept="image/*" hidden/>
+    </label>
+
+    <p id="wardrobe-error" class="error hidden"></p>
+
+    <div id="wardrobe-empty" class="hint">
+        No items yet. Upload a photo and AI will detect type, style and tags.
+    </div>
+
+    <div id="items-grid" class="grid"></div>
+</section>
+{% endblock %}
