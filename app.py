@@ -169,6 +169,14 @@ def api_outfit():
 
         profile = load_profile()
 
+        wardrobe_for_ai = []
+        for item in wardrobe:
+            clean_item = item.copy()
+            if "imageDataUrl" in clean_item:
+                del clean_item["imageDataUrl"]
+            wardrobe_for_ai.append(clean_item)
+        # ========================================================
+
         user_desc = (
             f"Name: {profile.get('name')}. "
             f"Gender: {profile.get('gender')}. "
@@ -185,7 +193,7 @@ def api_outfit():
             "4. The explanation MUST mention why these items fit the user's body type or skin tone (e.g. 'This color pops against your warm skin tone')."
         )
 
-        user_content = f"User Profile: {user_desc}\nWeather: {weather}\nEvent: {user_event}\nWardrobe JSON: {json.dumps(wardrobe)}"
+        user_content = f"User Profile: {user_desc}\nWeather: {weather}\nEvent: {user_event}\nWardrobe JSON: {json.dumps(wardrobe_for_ai)}"
 
         resp = client.chat.completions.create(
             model="gpt-4o",
