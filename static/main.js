@@ -285,6 +285,7 @@ function initHomePage() {
     const errorEl = document.getElementById("home-error");
     const wornBtn = document.getElementById("outfit-worn");
     const wornStatusEl = document.getElementById("outfit-worn-status");
+    const remixBtn = document.getElementById("outfit-remix");
 
     let currentWeatherDataString = "";
     let cachedProfile = null;
@@ -448,6 +449,112 @@ function initHomePage() {
                 wornBtn.style.background = "#10b981";
                 wornBtn.style.borderColor = "#10b981";
                 wornBtn.style.color = "white";
+            }
+
+
+        });
+    }
+
+    // Remix Button - Generate fresh outfit with different items
+    if (remixBtn) {
+        remixBtn.addEventListener("click", async () => {
+            if (!lastGeneratedOutfitIds.length) {
+                alert("Generate an outfit first!");
+                return;
+            }
+
+            const currentWardrobe = loadWardrobe();
+            if (!currentWardrobe.length) {
+                alert("Wardrobe is empty!");
+                return;
+            }
+
+            if (!currentWeatherDataString) await updateWeatherState();
+
+            errorEl.classList.add("hidden");
+            remixBtn.disabled = true;
+            remixBtn.innerHTML = `Remixing <span class="loading-dots">...</span>`;
+
+            try {
+                // Get current outfit info for remix reference
+                const byId = Object.fromEntries(currentWardrobe.map(it => [it.id, it]));
+                const currentOutfitItems = lastGeneratedOutfitIds.map(id => byId[id]).filter(Boolean);
+                const currentReason = reasonEl.textContent || "similar style";
+
+                const data = await apiFetch("/api/outfit/remix", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        wardrobe: currentWardrobe,
+                        weather: currentWeatherDataString,
+                        user: {
+                            event: eventInput ? eventInput.value : "",
+                            style: cachedProfile?.style || "",
+                        },
+                        original_outfit: {
+                            items: lastGeneratedOutfitIds,
+                            reason: currentReason
+                        },
+                    }),
+                });
+
+                const ids = data?.items || [];
+                lastGeneratedOutfitIds = ids;
+
+                let selectedItems = ids.map(id => byId[id]).filter(Boolean);
+
+                const orderScore = (item) => {
+                    const t = (item.type || "").toLowerCase();
+                    if (t.includes("hat") || t.includes("cap") || t.includes("beanie")) return 1;
+                    if (t.includes("jacket") || t.includes("coat") || t.includes("blazer")) return 2;
+                    if (t.includes("shirt") || t.includes("top") || t.includes("hoodie") || t.includes("sweater")) return 3;
+                    if (t.includes("pant") || t.includes("jean") || t.includes("trousers") || t.includes("skirt") || t.includes("short")) return 4;
+                    if (t.includes("shoe") || t.includes("sneaker") || t.includes("boot")) return 5;
+                    return 10;
+                };
+
+                selectedItems.sort((a, b) => orderScore(a) - orderScore(b));
+
+                const stackEl = document.getElementById("mannequin-stack");
+                const listEl = document.getElementById("outfit-items");
+
+                if (stackEl) stackEl.innerHTML = "";
+                listEl.innerHTML = "";
+
+                selectedItems.forEach(item => {
+                    if (stackEl) {
+                        const div = document.createElement("div");
+                        div.className = "mannequin-item";
+                        const img = document.createElement("img");
+                        img.src = item.imageDataUrl;
+                        div.appendChild(img);
+                        stackEl.appendChild(div);
+                    }
+
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                        <span>${item.type}</span>
+                        <span style="font-size:12px; color:#94a3b8">${item.brand || 'No brand'}</span>
+                    `;
+                    listEl.appendChild(li);
+                });
+
+                reasonEl.innerHTML = (data.reason || "Fresh remix of your look.")
+                    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+                resultCard.classList.remove("hidden");
+
+                setTimeout(() => {
+                    resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 100);
+
+            } catch (e) {
+                console.error(e);
+                errorEl.textContent = "Remix failed. Try again.";
+                errorEl.classList.remove("hidden");
+            } finally {
+                remixBtn.disabled = false;
+                remixBtn.textContent = "🔄 Remix";
             }
         });
     }
